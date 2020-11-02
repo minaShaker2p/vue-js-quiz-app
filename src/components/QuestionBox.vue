@@ -1,0 +1,114 @@
+<template>
+ <div>
+
+ <div class="question-box-container">
+    <div class="jumbotron">
+      <template class="lead">
+        {{ currentQuestion.question }}
+      </template>
+
+       <hr class="my-4">
+
+  <b-list-group>
+  <b-list-group-item v-for="(answer,index) in shuffledAnswers" :key="index"  @click="selectAnswer(index)"
+  :class="[selectedIndex === index ? 'selected' : ' '] "
+  > {{answer}}</b-list-group-item>
+</b-list-group>
+  
+<button type="button" class="btn btn-primary"
+@click="submitAnswer"
+:disabled="selectedIndex === null"
+>Submit</button>
+<button type="button" @click="next" class="btn btn-success">Next</button>
+    </div>
+ 
+</div>
+ </div>
+ 
+</template>
+
+<script>
+import _ from 'lodash'
+export default {
+  props: {
+    currentQuestion: Object,
+    next: Function,
+    increment :Function
+  },
+  data() {
+    return {
+      selectedIndex : null,
+      correctIndex : null,
+      shuffledAnswers : [] 
+    }
+  },
+  watch: {
+    currentQuestion()
+    {
+      this.selectedIndex =null
+      this.suffleAnswers()
+    }
+  },
+    methods :{
+    selectAnswer(index)
+    {
+      this.selectedIndex=index
+    },
+    suffleAnswers()
+    {
+      let answers = [...this.currentQuestion.incorrect_answers,this.currentQuestion.correct_answer];
+      this.shuffledAnswers = _.shuffle(answers)
+ 
+
+    },
+    submitAnswer()
+    {
+      let isCorrect =false
+       this.correctIndex = this.shuffledAnswers.indexOf(this.currentQuestion.correct_answer)
+      if( this.selectedIndex === this.correctIndex)
+      {
+        isCorrect = true
+      }
+  
+       this.increment(isCorrect)
+    }
+  },
+  mounted()
+  {
+    this.suffleAnswers()
+     
+
+  }
+  ,
+  computed: {
+    answers() {
+      let answers = [...this.currentQuestion.incorrect_answers];
+      answers.push(this.currentQuestion.correct_answer);
+      return answers;
+    }
+  }
+};
+</script>
+
+<style scoped>
+.list-group {
+margin-bottom: 15px;
+}
+.list-group-item:hover {
+  background: #EEE;
+  cursor: pointer;
+}
+.btn {
+margin: 0 5px;
+}
+
+.selected {
+  background-color:skyblue
+} 
+.correct {
+  background-color: green;
+}
+.incorrect {
+  background-color: red;
+}
+</style>
