@@ -12,10 +12,7 @@
   <b-list-group>
   <b-list-group-item v-for="(answer,index) in shuffledAnswers
   " :key="index"  @click="selectAnswer(index)"
-  :class="[
-  !isAnswered && selectedIndex === index ? 'selected' : 
-  isAnswered && correctIndex === index ? 'correct' :
-    isAnswered && correctIndex !== index && selectedIndex === index? 'incorrect' :'']"
+  :class="answerClass(index)"
   > {{answer}}</b-list-group-item>
 </b-list-group>
   
@@ -78,6 +75,20 @@ export default {
       // change statues of question to answered question
       this.isAnswered=true
       this.increment(isCorrect)
+    },answerClass(index)
+    {
+      let answerClass=''
+      if(!this.isAnswered && this.selectedIndex === index)
+      {
+            answerClass='selected'
+      }else if (this.isAnswered && this.correctIndex === index)
+      {
+          answerClass='correct'
+      }else if( this.isAnswered && this.correctIndex !== index && this.selectedIndex === index)
+      {
+          answerClass='incorrect'
+      }
+      return answerClass
     }
   },
   mounted()
