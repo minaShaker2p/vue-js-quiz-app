@@ -20,7 +20,8 @@
 @click="submitAnswer"
 :disabled="selectedIndex === null || isAnswered"
 >Submit</button>
-<button type="button" @click="next" class="btn btn-success">Next</button>
+<button type="button" @click="next" class="btn btn-success"
+:disabled="numTotal === 10 ">Next</button>
     </div>
  
 </div>
@@ -34,6 +35,7 @@ export default {
   props: {
     currentQuestion: Object,
     next: Function,
+    numTotal: Number,
     increment :Function
   },
   data() {

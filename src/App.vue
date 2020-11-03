@@ -10,7 +10,8 @@
       <QuestionBox 
         :currentQuestion="questions[index]"
         :next="next"
-        :increment="increment" />
+        :increment="increment"
+        :numTotal="numTotal" />
     </div>
   </div>
   </div>
@@ -32,7 +33,7 @@ export default {
       questions : [],
       index : 1,
       numCorrect : 0,
-      numTotal : 0
+      numTotal : 1
     }
   },
   methods : {
