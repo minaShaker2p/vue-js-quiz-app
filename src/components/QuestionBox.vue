@@ -62,13 +62,12 @@ export default {
     {
       let answers = [...this.currentQuestion.incorrect_answers,this.currentQuestion.correct_answer];
       this.shuffledAnswers = _.shuffle(answers)
- 
-
+      // store the index of the correct answer 
+      this.correctIndex = this.shuffledAnswers.indexOf(this.currentQuestion.correct_answer)
     },
     submitAnswer()
     {
       let isCorrect =false
-       this.correctIndex = this.shuffledAnswers.indexOf(this.currentQuestion.correct_answer)
       if( this.selectedIndex === this.correctIndex)
       {
         isCorrect = true
