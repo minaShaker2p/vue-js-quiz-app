@@ -10,14 +10,15 @@
        <hr class="my-4">
 
   <b-list-group>
-  <b-list-group-item v-for="(answer,index) in shuffledAnswers" :key="index"  @click="selectAnswer(index)"
+  <b-list-group-item v-for="(answer,index) in shuffledAnswers
+  " :key="index"  @click="selectAnswer(index)"
   :class="[selectedIndex === index ? 'selected' : ' '] "
   > {{answer}}</b-list-group-item>
 </b-list-group>
   
 <button type="button" class="btn btn-primary"
 @click="submitAnswer"
-:disabled="selectedIndex === null"
+:disabled="selectedIndex === null || isAnswered"
 >Submit</button>
 <button type="button" @click="next" class="btn btn-success">Next</button>
     </div>
@@ -39,13 +40,16 @@ export default {
     return {
       selectedIndex : null,
       correctIndex : null,
-      shuffledAnswers : [] 
+      shuffledAnswers : [] ,
+      isAnswered : false
     }
   },
   watch: {
     currentQuestion()
     {
       this.selectedIndex =null
+      this.correctIndex =null
+      this.isAnswered =false
       this.suffleAnswers()
     }
   },
@@ -69,15 +73,14 @@ export default {
       {
         isCorrect = true
       }
-  
-       this.increment(isCorrect)
+      // change statues of question to answered question
+      this.isAnswered=true
+      this.increment(isCorrect)
     }
   },
   mounted()
   {
     this.suffleAnswers()
-     
-
   }
   ,
   computed: {
